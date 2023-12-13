@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <title>TuneTime</title>
+</head>
+
+<body>
+
+<header>
+    <h1>TuneTime</h1>
+<!--    <input type="text" id="searchInput" placeholder="Search top songs from any year...">-->
+    <input type="text" id="searchInput" placeholder="Search top songs from any year...">
+    <button onclick="searchTopSongs()">Search</button>
+
+</header>
+
+<script src="java.java">
+</script>
+
+<main>
+    <div class="text-container">
+        <p>Discover and enjoy music from different years.</p>
+    </div>
+</main>
+
+</body>
+
+</html>
+
+
+<script>
+    function searchTopSongs() {
+        var year = document.getElementById("searchInput").value;
+        if (!year) {
+            alert("Please enter a year.");
+            return;
+        }
+        // Assuming your Spring Boot app is running on localhost:8080
+        var url = "http://localhost:8080/songs/year/" + encodeURIComponent(year);
+        console.log(url);
+
+        fetch(url)
+            .then(response => response.text())
+            .then(data => {
+                console.log(data); // Handle the response data as needed4
+                var videos_area = document.getElementsByClassName("text-container")[0];
+
+                if (data === "invalid year") {
+                    alert("Invalid year, it must be between 1970 and 2023");
+                    return;
+                }
+                var jsonData = JSON.parse(data)
+                videos_area.textContent = ""
+
+                for (var i = 0; i < jsonData.length; i++) {
+                    var video = jsonData[i];
+                    var video_id = video["id"]["videoId"]
+                    videos_area.innerHTML += `    <iframe width=\"190\" height=\"140\" src=\"https://www.youtube.com/embed/${video_id}\" frameborder=\"0\" allowfullscreen></iframe>\n`
+                    // videos_area.innerHTML += "<br><br>"
+                    videos_area.innerHTML += "         "
+                    // videos_area.innerHTML += "etag: " + video["etag"] + "<br><br>";
+                }
+
+            })
+            .catch(error => {
+                console.log('Error:', error);
+            });
+    }
+</script>
+<style>
+
+    body {
+        background-color: mediumspringgreen;
+        margin: 0%;
+        padding: 0%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        flex-direction: column;
+    }
+
+    h1 {
+        color: grey;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 36px;
+        text-align: center;
+        margin-top:10px;
+    }
+
+    .text-container {
+        width: 900px;
+        height: 400px;
+        background-color: white;
+        text-align: center;
+        margin-top: 150px;
+        border-radius:15px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    .text-container p {}
+
+
+    header{background-color:black;
+        padding: 5px;
+        margin: 5px;
+        width:95%;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 15px;
+    }
+
+    input {
+        width: 16%;
+        padding: 10px;
+        margin: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-sizing: border-box;
+    }
+
+    button{
+        background-color: white;
+        width: 100px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 15px;
+        padding: 1px;
+        border: 10px solid #ccc;
+        cursor: pointer;
+
+    }
+
+</style>
