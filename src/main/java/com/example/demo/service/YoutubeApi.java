@@ -25,7 +25,7 @@ import java.util.List;
 //Defining the class for YouTube api
 public class YoutubeApi {
     // Defining the API key
-    private static final String API_KEY = "AIzaSyB-p5tt3c6QiCByMFmvS80j52SjnjWyPpU";
+    private static final String API_KEY = "";
     private static final String APPLICATION_NAME = "TuneTime";
 
     //defining serach function
